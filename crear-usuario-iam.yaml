@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: "CloudFormation Template to Create an IAM User"
+
+Parameters:
+  UserName:
+    Type: String
+    Description: "El nombre del usuario a crear"
+  Group:
+    Type: String
+    Description: "El grupo al que debe perteneces, ej: principiantes"
+  Password:
+    Type: String
+    Description: "La clave debe ser de minimo 8  de longitud y conteneres 1 caracter especial"
+    NoEcho: true  # This hides the password in the CloudFormation console
+
+Resources:
+  IAMUser:
+    Type: AWS::IAM::User
+    Properties: 
+      UserName: !Ref UserName
+      Groups: 
+        - !Ref Group
+      LoginProfile: 
+        Password: !Ref Password
+        PasswordResetRequired: true
+      #ManagedPolicyArns: 
+      #  - arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess  # Example managed policy
+      Path: /
+      Tags: 
+        - Key: Purpose
+          Value: ExampleUserCreationFromAWSServiceCatalog
